@@ -142,6 +142,26 @@ CREATE TABLE songs_in_albums (
     PRIMARY KEY (song_id, album_id)
 );
 
+ALTER TABLE accounts
+ADD CONSTRAINT fk_accounts_profiles
+FOREIGN KEY (profile_id)
+REFERENCES profiles;
+
+ALTER TABLE accounts
+ADD CONSTRAINT fk_accounts_artists
+FOREIGN KEY (artist_id)
+REFERENCES artists;
+
+ALTER TABLE accounts
+ADD CONSTRAINT fk_accounts_podcasts
+FOREIGN KEY (podcast_id)
+REFERENCES podcasts;
+
+ALTER TABLE accounts
+ADD CONSTRAINT fk_accounts_libraries
+FOREIGN KEY (library_id)
+REFERENCES libraries;
+
 ALTER TABLE playlists_in_profiles
 ADD CONSTRAINT fk_playlists_in_profiles_playlists
 FOREIGN KEY (playlist_id)
