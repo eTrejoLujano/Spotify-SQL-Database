@@ -1,31 +1,30 @@
 CREATE TABLE accounts (
 	id SERIAL,
 	username TEXT NOT NULL UNIQUE,
+	password TEXT NOT NULL,
 	email TEXT NOT NULL UNIQUE,
 	date_of_birth DATE NOT NULL,
 	country_or_region TEXT NOT NULL,
-	PRIMARY KEY(id),
-	profile_id INT NOT NULL UNIQUE,
-	artist_id INT UNIQUE,
-	podcast_id INT UNIQUE,
-	library_id INT NOT NULL UNIQUE
+	PRIMARY KEY(id)
 );
 
 CREATE TABLE profiles (
 	id SERIAL,
     name TEXT NOT NULL,
+    account_id INT NOT NULL,
     PRIMARY KEY(id)
 );
 
 CREATE TABLE libraries (
     id SERIAL,
+    account_id INT NOT NULL,
     PRIMARY KEY(id)
 );
 
 CREATE TABLE playlists (
     id SERIAL,
     name TEXT NOT NULL,
-    creators_profile_id INT NOT NULL;,
+    creators_profile_id INT NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -39,6 +38,7 @@ CREATE TABLE songs (
 CREATE TABLE artists (
     id SERIAL,
     name TEXT NOT NULL,
+    account_id INT NOT NULL,
     PRIMARY KEY(id) 
 );
 
@@ -60,8 +60,8 @@ CREATE TABLE episodes (
 CREATE TABLE podcasts (
     id SERIAL,
     name TEXT NOT NULL,
-    account_id INT NOT NULL,
     genre TEXT NOT NULL,
+	account_id INT NOT NULL,
     PRIMARY KEY(id)
 );
 
@@ -82,7 +82,7 @@ CREATE TABLE songs_in_libraries (
     library_id INT NOT NULL,
     song_id INT NOT NULL,
     song_liked BOOLEAN NOT NULL,
-    PRIMARY KEY (library_id, podcast_id)
+    PRIMARY KEY (library_id, song_id)
 );
 
 CREATE TABLE episodes_in_libraries (
@@ -142,25 +142,25 @@ CREATE TABLE songs_in_albums (
     PRIMARY KEY (song_id, album_id)
 );
 
-ALTER TABLE accounts
-ADD CONSTRAINT fk_accounts_profiles
-FOREIGN KEY (profile_id)
-REFERENCES profiles;
+ALTER TABLE profiles
+ADD CONSTRAINT fk_profiles_accounts
+FOREIGN KEY (account_id)
+REFERENCES accounts;
 
-ALTER TABLE accounts
-ADD CONSTRAINT fk_accounts_artists
-FOREIGN KEY (artist_id)
-REFERENCES artists;
+ALTER TABLE artists
+ADD CONSTRAINT fk_artists_accounts
+FOREIGN KEY (account_id)
+REFERENCES accounts;
 
-ALTER TABLE accounts
-ADD CONSTRAINT fk_accounts_podcasts
-FOREIGN KEY (podcast_id)
-REFERENCES podcasts;
+ALTER TABLE podcasts
+ADD CONSTRAINT fk_podcasts_accounts
+FOREIGN KEY (account_id)
+REFERENCES accounts;
 
-ALTER TABLE accounts
-ADD CONSTRAINT fk_accounts_libraries
-FOREIGN KEY (library_id)
-REFERENCES libraries;
+ALTER TABLE libraries
+ADD CONSTRAINT fk_libraries_accounts
+FOREIGN KEY (account_id)
+REFERENCES accounts;
 
 ALTER TABLE playlists_in_profiles
 ADD CONSTRAINT fk_playlists_in_profiles_playlists
