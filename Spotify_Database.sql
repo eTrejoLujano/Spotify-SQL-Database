@@ -162,6 +162,11 @@ ADD CONSTRAINT fk_libraries_accounts
 FOREIGN KEY (account_id)
 REFERENCES accounts;
 
+ALTER TABLE episodes
+ADD CONSTRAINT fk_episodes_podcasts
+FOREIGN KEY (podcast_id)
+REFERENCES podcasts;
+
 ALTER TABLE playlists_in_profiles
 ADD CONSTRAINT fk_playlists_in_profiles_playlists
 FOREIGN KEY (playlist_id)
